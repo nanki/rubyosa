@@ -428,6 +428,7 @@ module OSA
   def self.__load_sdef__(sdef, target, app_module, merge_only=false, app_class=nil)
     # Load the sdef.
     doc = XML::Parser.string(sdef).parse
+    doc.xinclude
 
     # Retrieves and creates enumerations.
     enum_group_codes = {} 
