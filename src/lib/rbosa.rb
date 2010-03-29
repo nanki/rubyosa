@@ -463,6 +463,10 @@ module OSA
       key = (element['id'] or element['name'])
       (class_elements[key] ||= []) << element
     end
+    doc.find('/dictionary/suite/class-extension').each do |element|
+      key = element['extends']
+      class_elements[key] << element
+    end
     class_elements.values.flatten.each do |element| 
       klass = add_class_from_xml_element(element, class_elements, classes, app_module)
       methods_doc = []
@@ -780,7 +784,7 @@ module OSA
   end
 
   def self.add_class_from_xml_element(element, class_elements, repository, app_module)
-    real_name = element['name']
+    real_name = (element['name'] or element['extends'])
     key = (element['id'] or real_name)
     klass = repository[key]
     if klass.nil?
